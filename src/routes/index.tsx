@@ -201,6 +201,9 @@ function ChampionshipRegistrationPage() {
   const inputClassName =
     'w-full rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15';
 
+  const textareaClassName =
+    'w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15';
+
   return (
     <main className='min-h-screen overflow-x-hidden bg-background text-foreground'>
       <style>{`
@@ -252,6 +255,13 @@ function ChampionshipRegistrationPage() {
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(24px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        .success-enter {
+          animation: successEnter 0.35s ease both;
+        }
+        @keyframes successEnter {
+          from { opacity: 0; transform: scale(0.92) translateY(12px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
         }
       `}</style>
 
@@ -524,7 +534,7 @@ function ChampionshipRegistrationPage() {
                   required
                   rows={6}
                   placeholder='Digite um jogador por linha'
-                  className='w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15'
+                  className={textareaClassName}
                 />
                 <p className='text-xs font-medium text-muted-foreground'>
                   {playerCount > 0
@@ -543,87 +553,90 @@ function ChampionshipRegistrationPage() {
                   required
                   rows={4}
                   placeholder='Ex: João - 17 anos, Pedro - 18 anos...'
-                  className='w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15'
+                  className={textareaClassName}
                 />
               </label>
 
               <label className='block space-y-2'>
                 <span className='flex items-center gap-2 text-sm font-bold text-foreground'>
-                  <span className='text-lg'>📍</span> Endereço / comunidade
+                  <span className='text-lg'>🏘️</span> Endereço da comunidade
                 </span>
-                <textarea
+                <input
                   value={address}
                   onChange={(event) => setAddress(event.target.value)}
                   required
-                  rows={3}
-                  placeholder='Informe rua, número, bairro ou comunidade'
-                  className='w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15'
+                  placeholder='Ex: Rua das Flores, 123 - Comunidade Boa Esperança'
+                  className={inputClassName}
                 />
               </label>
 
               <button
                 type='submit'
-                className='group flex w-full items-center justify-center gap-3 rounded-2xl bg-emerald-700 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-700/25 transition hover:scale-[1.01] hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99]'
+                className='w-full rounded-full bg-emerald-700 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-700/25 transition hover:scale-[1.01] hover:bg-emerald-800'
               >
-                <span className='text-xl transition group-hover:rotate-12'>⚽</span>
                 Enviar inscrição pelo WhatsApp
               </button>
-
               <p className='text-center text-xs leading-5 text-muted-foreground'>
-                Ao enviar, o WhatsApp abre com a mensagem pronta para a organização. Revise os dados antes de tocar em enviar.
+                Ao enviar, uma mensagem pronta abre no WhatsApp da organização com os dados do time.
               </p>
             </form>
-
-            {lastRegistration ? (
-              <div className='fade-up mt-6 rounded-3xl border-2 border-emerald-300 bg-emerald-50 p-5 text-emerald-950'>
-                <div className='flex items-center gap-3'>
-                  <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-lg font-black text-white shadow-lg'>✓</span>
-                  <h3 className='text-lg font-black'>Inscrição registrada com sucesso!</h3>
-                </div>
-                <p className='mt-3 text-sm leading-6'>
-                  O cadastro do time {lastRegistration.teamName} foi salvo neste dispositivo. Se a janela do WhatsApp não abriu, use os botões abaixo.
-                </p>
-                <div className='mt-4 flex flex-col gap-3 sm:flex-row'>
-                  <a
-                    href={adminWhatsappUrl}
-                    target='_blank'
-                    rel='noreferrer'
-                    className='inline-flex items-center justify-center rounded-full bg-emerald-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-800'
-                  >
-                    Reenviar para o administrador
-                  </a>
-                  {confirmationWhatsappUrl ? (
-                    <a
-                      href={confirmationWhatsappUrl}
-                      target='_blank'
-                      rel='noreferrer'
-                      className='inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-100'
-                    >
-                      Enviar confirmação ao time
-                    </a>
-                  ) : null}
-                </div>
-              </div>
-            ) : null}
           </div>
         </div>
       </section>
 
       <footer className='border-t border-border bg-emerald-950 py-12 text-center text-white'>
-        <FjuLogo className='mx-auto h-14 w-14' />
-        <p className='mt-4 text-sm font-black uppercase tracking-[0.25em] text-yellow-300'>FJU nas Comunidades</p>
-        <p className='mx-auto mt-3 max-w-md px-6 text-sm leading-6 text-emerald-100/70'>
-          Organizado com carinho para unir as comunidades pelo esporte. Toda a honra e glória a Deus.
-        </p>
-        <div className='mx-auto mt-6 flex max-w-md flex-col items-center justify-center gap-2 sm:flex-row'>
-          <a href='#inscricao' className='rounded-full bg-white px-6 py-2 text-sm font-black text-green-950 transition hover:bg-yellow-300'>
-            Quero inscrever meu time
-          </a>
-          <Link to='/inscritos' className='rounded-full border border-white/20 px-6 py-2 text-sm font-bold text-white transition hover:bg-white/10'>
-            Ver inscritos
-          </Link>
-        </div>
+        <FjuLogo className='mx-auto h-12 w-12' />
+        <p className='mt-3 text-sm font-black uppercase tracking-[0.25em] text-yellow-300'>FJU nas Comunidades</p>
+        <p className='mt-2 text-sm text-emerald-100/70'>Campeonato de futebol das comunidades</p>
+        <Link
+          to='/inscritos'
+          className='mt-5 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-black text-green-950 transition hover:bg-yellow-300'
+        >
+          📋 Ver lista de inscritos
+        </Link>
       </footer>
+
+      {lastRegistration ? (
+        <div className='fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-6 backdrop-blur-sm'>
+          <div className='success-enter w-full max-w-md rounded-3xl border border-border bg-card p-8 shadow-2xl'>
+            <div className='text-center'>
+              <span className='text-5xl'>🎉</span>
+              <h3 className='mt-4 text-2xl font-black text-foreground'>Inscrição enviada!</h3>
+              <p className='mt-2 leading-6 text-muted-foreground'>
+                A ficha do time {lastRegistration.teamName} foi registrada neste dispositivo e a mensagem foi aberta no WhatsApp.
+              </p>
+              <div className='mt-5 rounded-2xl bg-muted p-4 text-left text-sm leading-6 text-foreground'>
+                {buildConfirmationMessage(lastRegistration)}
+              </div>
+              {confirmationWhatsappUrl ? (
+                <a
+                  href={confirmationWhatsappUrl}
+                  target='_blank'
+                  rel='noreferrer'
+                  className='mt-6 inline-flex w-full items-center justify-center rounded-full bg-emerald-700 px-6 py-3 text-sm font-black text-white transition hover:bg-emerald-800'
+                >
+                  Enviar confirmação no WhatsApp
+                </a>
+              ) : null}
+              <a
+                href={adminWhatsappUrl}
+                target='_blank'
+                rel='noreferrer'
+                className='mt-3 inline-flex w-full items-center justify-center rounded-full border border-emerald-700 px-6 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50'
+              >
+                Reenviar ficha para a organização
+              </a>
+              <button
+                type='button'
+                onClick={() => setLastRegistration(null)}
+                className='mt-3 w-full rounded-full px-6 py-3 text-sm font-bold text-muted-foreground transition hover:bg-muted hover:text-foreground'
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }
