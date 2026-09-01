@@ -59,19 +59,59 @@ function buildListMessage(registrations: Registration[]) {
   ].join('\n\n');
 }
 
+function buildCsv(registrations: Registration[]) {
+  const escapeCsv = (value: string) => `"${value.replace(/"/g, '""')}"`;
+  const header = ['Time', 'Responsável', 'WhatsApp', 'Endereço', 'Jogadores', 'Idades', 'Data da inscrição'];
+
+  const rows = registrations.map((registration) =>
+    [
+      registration.teamName,
+      registration.responsibleName,
+      registration.responsibleWhatsapp,
+      registration.address,
+      registration.players,
+      registration.ages,
+      formatDate(registration.createdAt),
+    ]
+      .map(escapeCsv)
+      .join(';'),
+  );
+
+  return [header.map(escapeCsv).join(';'), ...rows].join('\n');
+}
+
+function countPlayers(registration: Registration) {
+  return registration.players
+    .split('\n')
+    .map((player) => player.trim())
+    .filter(Boolean).length;
+}
+
 function RegistrationsListPage() {
   const [registrations, setRegistrations] = useState<Registration[]>(() => getStoredRegistrations());
+  const [searchTerm, setSearchTerm] = useState('');
+  const [copied, setCopied] = useState(false);
 
   const totalPlayers = useMemo(() => {
-    return registrations.reduce((total, registration) => {
-      const players = registration.players
-        .split('\n')
-        .map((player) => player.trim())
-        .filter(Boolean);
-
-      return total + players.length;
-    }, 0);
+    return registrations.reduce((total, registration) => total + countPlayers(registration), 0);
   }, [registrations]);
+
+  const averagePlayers = useMemo(() => {
+    return registrations.length > 0
+      ? (totalPlayers / registrations.length).toFixed(1).replace('.', ',')
+      : '0';
+  }, [registrations.length, totalPlayers]);
+
+  const filteredRegistrations = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    if (!term) return registrations;
+
+    return registrations.filter((registration) =>
+      [registration.teamName, registration.responsibleName, registration.address].some(
+        (value) => value.toLowerCase().includes(term),
+      ),
+    );
+  }, [registrations, searchTerm]);
 
   const whatsappListUrl = useMemo(() => {
     return `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(
@@ -81,6 +121,7 @@ function RegistrationsListPage() {
 
   function handleRefresh() {
     setRegistrations(getStoredRegistrations());
+    setSearchTerm('');
   }
 
   function handleClearList() {
@@ -90,6 +131,31 @@ function RegistrationsListPage() {
 
     window.localStorage.removeItem(STORAGE_KEY);
     setRegistrations([]);
+  }
+
+  function handleExportCsv() {
+    const csv = `\uFEFF${buildCsv(registrations)}`;
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = 'inscritos-fju.csv';
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    URL.revokeObjectURL(url);
+  }
+
+  async function handleCopyList() {
+    if (!navigator.clipboard) return;
+
+    try {
+      await navigator.clipboard.writeText(buildListMessage(registrations));
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Não é possível copiar automaticamente; o usuário pode usar o botão do WhatsApp.
+    }
   }
 
   return (
@@ -127,6 +193,9 @@ function RegistrationsListPage() {
           <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">Jogadores</p>
             <p className="mt-2 text-4xl font-black text-foreground">{totalPlayers}</p>
+            <p className="mt-1 text-sm font-semibold text-muted-foreground">
+              média de {averagePlayers} por time
+            </p>
           </div>
           <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">Organização</p>
@@ -152,6 +221,20 @@ function RegistrationsListPage() {
           </a>
           <button
             type="button"
+            onClick={handleCopyList}
+            className="inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50"
+          >
+            {copied ? 'Lista copiada!' : 'Copiar lista'}
+          </button>
+          <button
+            type="button"
+            onClick={handleExportCsv}
+            className="inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50"
+          >
+            Exportar CSV
+          </button>
+          <button
+            type="button"
             onClick={handleClearList}
             className="inline-flex items-center justify-center rounded-full border border-destructive/30 px-5 py-3 text-sm font-bold text-destructive transition hover:bg-destructive/10"
           >
@@ -159,7 +242,23 @@ function RegistrationsListPage() {
           </button>
         </div>
 
-        <div className="mt-8 space-y-5">
+        <div className="mt-8">
+          <input
+            type="search"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Buscar por time, responsável ou comunidade..."
+            className="w-full rounded-2xl border border-input bg-card px-5 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15 sm:w-96"
+          />
+
+          <div className="mt-2 text-sm font-semibold text-muted-foreground">
+            {searchTerm.trim()
+              ? `Exibindo ${filteredRegistrations.length} de ${registrations.length} time${registrations.length === 1 ? '' : 's'}`
+              : `${registrations.length} time${registrations.length === 1 ? '' : 's'} cadastrado${registrations.length === 1 ? '' : 's'}`}
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-5">
           {registrations.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-border bg-card p-10 text-center shadow-sm">
               <h2 className="text-2xl font-black text-foreground">Nenhum time inscrito ainda</h2>
@@ -173,8 +272,15 @@ function RegistrationsListPage() {
                 Abrir ficha de inscrição
               </Link>
             </div>
+          ) : filteredRegistrations.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-border bg-card p-10 text-center shadow-sm">
+              <h2 className="text-2xl font-black text-foreground">Nenhum time encontrado</h2>
+              <p className="mt-3 text-muted-foreground">
+                Nenhuma inscrição corresponde a esta busca. Tente outro termo.
+              </p>
+            </div>
           ) : (
-            registrations.map((registration, index) => (
+            filteredRegistrations.map((registration) => (
               <article
                 key={registration.id}
                 className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm"
@@ -182,7 +288,7 @@ function RegistrationsListPage() {
                 <div className="flex flex-col gap-3 border-b border-border bg-muted p-6 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-700">
-                      Inscrição #{registrations.length - index}
+                      Inscrição #{registrations.length - registrations.indexOf(registration)}
                     </p>
                     <h2 className="mt-1 text-2xl font-black text-foreground">{registration.teamName}</h2>
                   </div>

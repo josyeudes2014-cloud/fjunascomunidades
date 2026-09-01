@@ -30,6 +30,22 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
+function formatPhoneNumber(value: string) {
+  const digits = onlyNumbers(value).slice(0, 11);
+
+  if (digits.length <= 2) return digits;
+  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  if (digits.length <= 10) {
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+  }
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+}
+
+function isValidPhoneNumber(value: string) {
+  const digits = onlyNumbers(value);
+  return digits.length >= 10 && digits.length <= 13;
+}
+
 function buildAdminMessage(registration: Registration) {
   return [
     'Nova inscrição para o campeonato FJU nas comunidades',
@@ -87,7 +103,13 @@ function ChampionshipRegistrationPage() {
   const [address, setAddress] = useState('');
   const [responsibleName, setResponsibleName] = useState('');
   const [responsibleWhatsapp, setResponsibleWhatsapp] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [lastRegistration, setLastRegistration] = useState<Registration | null>(null);
+
+  const playerCount = players
+    .split('\n')
+    .map((player) => player.trim())
+    .filter(Boolean).length;
 
   const adminWhatsappUrl = useMemo(() => {
     if (!lastRegistration) return '';
@@ -115,6 +137,13 @@ function ChampionshipRegistrationPage() {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (!isValidPhoneNumber(responsibleWhatsapp)) {
+      setPhoneError('Informe um WhatsApp válido com DDD, ex: (21) 99999-9999');
+      return;
+    }
+
+    setPhoneError('');
+
     const registration: Registration = {
       id: crypto.randomUUID(),
       teamName: teamName.trim(),
@@ -122,7 +151,7 @@ function ChampionshipRegistrationPage() {
       ages: ages.trim(),
       address: address.trim(),
       responsibleName: responsibleName.trim(),
-      responsibleWhatsapp: responsibleWhatsapp.trim(),
+      responsibleWhatsapp: formatPhoneNumber(responsibleWhatsapp),
       createdAt: new Date().toISOString(),
     };
 
@@ -199,6 +228,12 @@ function ChampionshipRegistrationPage() {
                 Abrir inscritos sem senha
               </Link>
             </div>
+            <div>
+              <p className="text-sm font-semibold text-foreground">Como funciona o armazenamento</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                As inscrições ficam salvas neste dispositivo. Para a organização acompanhar em qualquer lugar, a lista pode ser enviada pelo WhatsApp.
+              </p>
+            </div>
           </div>
         </aside>
 
@@ -232,11 +267,29 @@ function ChampionshipRegistrationPage() {
               <span className="text-sm font-bold text-foreground">WhatsApp do responsável</span>
               <input
                 value={responsibleWhatsapp}
-                onChange={(event) => setResponsibleWhatsapp(event.target.value)}
+                onChange={(event) => {
+                  setResponsibleWhatsapp(formatPhoneNumber(event.target.value));
+                  if (phoneError) setPhoneError('');
+                }}
                 required
+                inputMode="tel"
+                autoComplete="tel"
+                maxLength={15}
                 placeholder="Ex: (21) 99999-9999"
-                className="w-full rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15"
+                aria-invalid={phoneError ? true : undefined}
+                className={`w-full rounded-2xl border bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:ring-4 ${
+                  phoneError
+                    ? 'border-destructive focus:border-destructive focus:ring-destructive/15'
+                    : 'border-input focus:border-emerald-600 focus:ring-emerald-600/15'
+                }`}
               />
+              {phoneError ? (
+                <p className="text-sm font-semibold text-destructive">{phoneError}</p>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  O WhatsApp será usado pela organização e para enviar a confirmação da inscrição.
+                </p>
+              )}
             </label>
 
             <label className="space-y-2 block">
@@ -249,6 +302,11 @@ function ChampionshipRegistrationPage() {
                 placeholder="Digite um jogador por linha"
                 className="w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15"
               />
+              <p className="text-xs font-medium text-muted-foreground">
+                {playerCount > 0
+                  ? `${playerCount} jogador${playerCount === 1 ? '' : 'es'} listado${playerCount === 1 ? '' : 's'}`
+                  : 'Ainda não há jogadores listados'}
+              </p>
             </label>
 
             <label className="space-y-2 block">
