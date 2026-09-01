@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
+import { FjuLogo } from '../components/FjuLogo';
 
 export const Route = createFileRoute('/inscritos')({
   component: RegistrationsListPage,
@@ -60,7 +61,12 @@ function buildListMessage(registrations: Registration[]) {
 }
 
 function buildCsv(registrations: Registration[]) {
-  const escapeCsv = (value: string) => `"${value.replace(/"/g, '""')}"`;
+  const QUOTE = String.fromCharCode(34);
+  const escapeCsv = (value: string) => {
+    const escaped = value.split(QUOTE).join(QUOTE + QUOTE);
+    return QUOTE + escaped + QUOTE;
+  };
+
   const header = ['Time', 'Responsável', 'WhatsApp', 'Endereço', 'Jogadores', 'Idades', 'Data da inscrição'];
 
   const rows = registrations.map((registration) =>
@@ -159,170 +165,194 @@ function RegistrationsListPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <section className="border-b border-border bg-gradient-to-br from-zinc-950 via-emerald-950 to-green-900 text-white">
-        <div className="mx-auto max-w-6xl px-6 py-12">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <main className='min-h-screen overflow-x-hidden bg-background text-foreground'>
+      <style>{`
+        .field-lines {
+          background-image:
+            linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+          background-size: 70px 70px;
+        }
+        .fade-up {
+          animation: fadeUp 0.7s ease both;
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      <header className='sticky top-0 z-50 border-b border-white/10 bg-emerald-950/90 backdrop-blur'>
+        <div className='mx-auto flex max-w-6xl items-center justify-between px-6 py-4'>
+          <Link to='/' className='flex items-center gap-3'>
+            <FjuLogo className='h-11 w-11' />
             <div>
-              <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-100">
-                Acesso direto sem senha
-              </span>
-              <h1 className="mt-6 text-4xl font-black tracking-tight sm:text-5xl">
-                Lista de inscritos
-              </h1>
-              <p className="mt-4 max-w-2xl leading-7 text-emerald-50">
-                Consulte os times cadastrados para o campeonato FJU nas comunidades.
-              </p>
+              <p className='text-base font-black uppercase tracking-wide text-white'>FJU</p>
+              <p className='text-[10px] font-bold uppercase tracking-[0.25em] text-yellow-300'>Nas comunidades</p>
             </div>
-            <Link
-              to="/"
-              className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-green-950 shadow-lg transition hover:bg-emerald-50"
-            >
-              Voltar para inscrição
-            </Link>
-          </div>
+          </Link>
+          <Link
+            to='/'
+            className='inline-flex items-center gap-2 rounded-full bg-white px-5 py-2 text-sm font-black text-green-950 transition hover:bg-yellow-300'
+          >
+            ← Fazer inscrição
+          </Link>
+        </div>
+      </header>
+
+      <section className='relative overflow-hidden border-b border-border bg-gradient-to-br from-emerald-950 via-green-900 to-zinc-950 text-white'>
+        <div className='field-lines absolute inset-0 opacity-60' />
+        <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(250,204,21,0.15),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(34,197,94,0.2),transparent_35%)]' />
+        <div className='relative mx-auto max-w-6xl px-6 py-14'>
+          <span className='inline-flex items-center gap-2 rounded-full border border-yellow-300/30 bg-yellow-300/10 px-4 py-2 text-xs font-black uppercase tracking-[0.3em] text-yellow-200 backdrop-blur'>
+            ⚽ Acesso direto sem senha
+          </span>
+          <h1 className='mt-6 text-4xl font-black tracking-tight sm:text-5xl'>Lista de inscritos</h1>
+          <p className='mt-4 max-w-2xl leading-7 text-emerald-50'>
+            Confira os times cadastrados para o campeonato FJU nas comunidades. As inscrições feitas neste dispositivo aparecem aqui automaticamente.
+          </p>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-10">
-        <div className="grid gap-4 sm:grid-cols-3">
-          <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">Times</p>
-            <p className="mt-2 text-4xl font-black text-foreground">{registrations.length}</p>
+      <section className='mx-auto max-w-6xl px-6 py-10'>
+        <div className='grid gap-4 sm:grid-cols-3'>
+          <div className='fade-up rounded-3xl border border-border bg-card p-6 shadow-sm'>
+            <p className='text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground'>Times</p>
+            <p className='mt-2 text-4xl font-black text-foreground'>{registrations.length}</p>
           </div>
-          <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">Jogadores</p>
-            <p className="mt-2 text-4xl font-black text-foreground">{totalPlayers}</p>
-            <p className="mt-1 text-sm font-semibold text-muted-foreground">
-              média de {averagePlayers} por time
-            </p>
+          <div className='fade-up rounded-3xl border border-border bg-card p-6 shadow-sm' style={{ animationDelay: '0.1s' }}>
+            <p className='text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground'>Jogadores</p>
+            <p className='mt-2 text-4xl font-black text-foreground'>{totalPlayers}</p>
+            <p className='mt-1 text-sm font-semibold text-muted-foreground'>média de {averagePlayers} por time</p>
           </div>
-          <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">Organização</p>
-            <p className="mt-2 text-xl font-black text-emerald-700">(21) 98202-5641</p>
+          <div className='fade-up rounded-3xl border border-border bg-card p-6 shadow-sm' style={{ animationDelay: '0.2s' }}>
+            <p className='text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground'>Organização</p>
+            <p className='mt-2 text-xl font-black text-emerald-700'>(21) 98202-5641</p>
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <div className='mt-6 flex flex-wrap gap-3'>
           <button
-            type="button"
+            type='button'
             onClick={handleRefresh}
-            className="inline-flex items-center justify-center rounded-full bg-emerald-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-800"
+            className='inline-flex items-center justify-center rounded-full bg-emerald-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-800'
           >
             Atualizar lista
           </button>
           <a
             href={whatsappListUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50"
+            target='_blank'
+            rel='noreferrer'
+            className='inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50'
           >
             Enviar lista pelo WhatsApp
           </a>
           <button
-            type="button"
+            type='button'
             onClick={handleCopyList}
-            className="inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50"
+            className='inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50'
           >
             {copied ? 'Lista copiada!' : 'Copiar lista'}
           </button>
           <button
-            type="button"
+            type='button'
             onClick={handleExportCsv}
-            className="inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50"
+            className='inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50'
           >
             Exportar CSV
           </button>
           <button
-            type="button"
+            type='button'
             onClick={handleClearList}
-            className="inline-flex items-center justify-center rounded-full border border-destructive/30 px-5 py-3 text-sm font-bold text-destructive transition hover:bg-destructive/10"
+            className='inline-flex items-center justify-center rounded-full border border-destructive/30 px-5 py-3 text-sm font-bold text-destructive transition hover:bg-destructive/10'
           >
             Limpar lista deste dispositivo
           </button>
         </div>
 
-        <div className="mt-8">
+        <div className='mt-8'>
           <input
-            type="search"
+            type='search'
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Buscar por time, responsável ou comunidade..."
-            className="w-full rounded-2xl border border-input bg-card px-5 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15 sm:w-96"
+            placeholder='Buscar por time, responsável ou comunidade...'
+            className='w-full rounded-2xl border border-input bg-card px-5 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15 sm:w-96'
           />
 
-          <div className="mt-2 text-sm font-semibold text-muted-foreground">
+          <div className='mt-2 text-sm font-semibold text-muted-foreground'>
             {searchTerm.trim()
               ? `Exibindo ${filteredRegistrations.length} de ${registrations.length} time${registrations.length === 1 ? '' : 's'}`
               : `${registrations.length} time${registrations.length === 1 ? '' : 's'} cadastrado${registrations.length === 1 ? '' : 's'}`}
           </div>
         </div>
 
-        <div className="mt-6 space-y-5">
+        <div className='mt-6 space-y-5'>
           {registrations.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-border bg-card p-10 text-center shadow-sm">
-              <h2 className="text-2xl font-black text-foreground">Nenhum time inscrito ainda</h2>
-              <p className="mt-3 text-muted-foreground">
+            <div className='fade-up rounded-3xl border border-dashed border-border bg-card p-10 text-center shadow-sm'>
+              <span className='text-5xl'>⚽</span>
+              <h2 className='mt-4 text-2xl font-black text-foreground'>Nenhum time inscrito ainda</h2>
+              <p className='mt-3 text-muted-foreground'>
                 Quando uma inscrição for feita neste dispositivo, ela aparecerá aqui.
               </p>
               <Link
-                to="/"
-                className="mt-6 inline-flex items-center justify-center rounded-full bg-emerald-700 px-6 py-3 text-sm font-bold text-white transition hover:bg-emerald-800"
+                to='/'
+                className='mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-emerald-700 px-6 py-3 text-sm font-bold text-white transition hover:bg-emerald-800'
               >
                 Abrir ficha de inscrição
               </Link>
             </div>
           ) : filteredRegistrations.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-border bg-card p-10 text-center shadow-sm">
-              <h2 className="text-2xl font-black text-foreground">Nenhum time encontrado</h2>
-              <p className="mt-3 text-muted-foreground">
+            <div className='rounded-3xl border border-dashed border-border bg-card p-10 text-center shadow-sm'>
+              <h2 className='text-2xl font-black text-foreground'>Nenhum time encontrado</h2>
+              <p className='mt-3 text-muted-foreground'>
                 Nenhuma inscrição corresponde a esta busca. Tente outro termo.
               </p>
             </div>
           ) : (
-            filteredRegistrations.map((registration) => (
+            filteredRegistrations.map((registration, index) => (
               <article
                 key={registration.id}
-                className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm"
+                className='fade-up overflow-hidden rounded-3xl border border-border bg-card shadow-sm'
+                style={{ animationDelay: `${Math.min(index * 0.06, 0.6)}s` }}
               >
-                <div className="flex flex-col gap-3 border-b border-border bg-muted p-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className='flex flex-col gap-3 border-b border-border bg-muted p-6 sm:flex-row sm:items-center sm:justify-between'>
                   <div>
-                    <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-700">
+                    <p className='text-sm font-bold uppercase tracking-[0.2em] text-emerald-700'>
                       Inscrição #{registrations.length - registrations.indexOf(registration)}
                     </p>
-                    <h2 className="mt-1 text-2xl font-black text-foreground">{registration.teamName}</h2>
+                    <h2 className='mt-1 text-2xl font-black text-foreground'>{registration.teamName}</h2>
                   </div>
-                  <p className="rounded-full bg-background px-4 py-2 text-sm font-semibold text-muted-foreground">
+                  <p className='rounded-full bg-background px-4 py-2 text-sm font-semibold text-muted-foreground'>
                     {formatDate(registration.createdAt)}
                   </p>
                 </div>
 
-                <div className="grid gap-6 p-6 lg:grid-cols-2">
-                  <div className="space-y-4">
+                <div className='grid gap-6 p-6 lg:grid-cols-2'>
+                  <div className='space-y-4'>
                     <div>
-                      <p className="text-sm font-bold text-muted-foreground">Responsável</p>
-                      <p className="mt-1 font-semibold text-foreground">{registration.responsibleName}</p>
+                      <p className='text-sm font-bold text-muted-foreground'>Responsável</p>
+                      <p className='mt-1 font-semibold text-foreground'>{registration.responsibleName}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-muted-foreground">WhatsApp</p>
-                      <p className="mt-1 font-semibold text-foreground">{registration.responsibleWhatsapp}</p>
+                      <p className='text-sm font-bold text-muted-foreground'>WhatsApp</p>
+                      <p className='mt-1 font-semibold text-foreground'>{registration.responsibleWhatsapp}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-muted-foreground">Endereço / comunidade</p>
-                      <p className="mt-1 whitespace-pre-line font-semibold text-foreground">{registration.address}</p>
+                      <p className='text-sm font-bold text-muted-foreground'>Endereço / comunidade</p>
+                      <p className='mt-1 whitespace-pre-line font-semibold text-foreground'>{registration.address}</p>
                     </div>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className='space-y-4'>
                     <div>
-                      <p className="text-sm font-bold text-muted-foreground">Jogadores</p>
-                      <p className="mt-1 whitespace-pre-line rounded-2xl bg-muted p-4 text-sm leading-6 text-foreground">
+                      <p className='text-sm font-bold text-muted-foreground'>Jogadores</p>
+                      <p className='mt-1 whitespace-pre-line rounded-2xl bg-muted p-4 text-sm leading-6 text-foreground'>
                         {registration.players}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-muted-foreground">Idades</p>
-                      <p className="mt-1 whitespace-pre-line rounded-2xl bg-muted p-4 text-sm leading-6 text-foreground">
+                      <p className='text-sm font-bold text-muted-foreground'>Idades</p>
+                      <p className='mt-1 whitespace-pre-line rounded-2xl bg-muted p-4 text-sm leading-6 text-foreground'>
                         {registration.ages}
                       </p>
                     </div>
@@ -333,6 +363,17 @@ function RegistrationsListPage() {
           )}
         </div>
       </section>
+
+      <footer className='border-t border-border bg-emerald-950 py-10 text-center text-white'>
+        <FjuLogo className='mx-auto h-12 w-12' />
+        <p className='mt-3 text-sm font-black uppercase tracking-[0.25em] text-yellow-300'>FJU nas Comunidades</p>
+        <Link
+          to='/'
+          className='mt-5 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-black text-green-950 transition hover:bg-yellow-300'
+        >
+          ← Voltar para a inscrição
+        </Link>
+      </footer>
     </main>
   );
 }

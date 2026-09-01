@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { FormEvent, useMemo, useState } from 'react';
+import { FjuLogo } from '../components/FjuLogo';
 
 export const Route = createFileRoute('/')({
   component: ChampionshipRegistrationPage,
@@ -18,6 +19,29 @@ type Registration = {
 
 const STORAGE_KEY = 'fju_championship_registrations';
 const ADMIN_WHATSAPP = '5521982025641';
+
+const COMMUNITY_IMAGES = [
+  '/uploads/images.jpeg',
+  '/uploads/download.jpeg',
+  '/uploads/images_1_.jpeg',
+  '/uploads/images_2_.jpeg',
+  '/uploads/images_3_.jpeg',
+  '/uploads/images_4_.jpeg',
+  '/uploads/download_1_.jpeg',
+  '/uploads/images_5_.jpeg',
+  '/uploads/images_6_.jpeg',
+  '/uploads/images_7_.jpeg',
+  '/uploads/images_8_.jpeg',
+  '/uploads/images_9_.jpeg',
+  '/uploads/images_10_.jpeg',
+  '/uploads/images_11_.jpeg',
+  '/uploads/images_12_.jpeg',
+  '/uploads/images_13_.jpeg',
+  '/uploads/images_14_.jpeg',
+  '/uploads/images_15_.jpeg',
+];
+
+const MARQUEE_IMAGES = [...COMMUNITY_IMAGES, ...COMMUNITY_IMAGES];
 
 function onlyNumbers(value: string) {
   return value.replace(/\D/g, '');
@@ -174,203 +198,432 @@ function ChampionshipRegistrationPage() {
     );
   }
 
+  const inputClassName =
+    'w-full rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15';
+
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <section className="relative overflow-hidden border-b border-border bg-gradient-to-br from-emerald-950 via-green-900 to-zinc-950 text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.35),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.12),transparent_30%)]" />
-        <div className="relative mx-auto flex min-h-[420px] max-w-6xl flex-col items-center justify-center px-6 py-16 text-center">
-          <span className="mb-5 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-100 backdrop-blur">
-            Campeonato de Futebol
-          </span>
-          <h1 className="max-w-4xl text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
-            Inscrição oficial dos times para o FJU nas comunidades
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-emerald-50">
-            Preencha a ficha com atenção. Depois do envio, a organização recebe os dados pelo WhatsApp e o time pode receber a confirmação do cadastro.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="#ficha"
-              className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-green-950 shadow-lg transition hover:bg-emerald-50"
+    <main className='min-h-screen overflow-x-hidden bg-background text-foreground'>
+      <style>{`
+        .field-lines {
+          background-image:
+            linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+          background-size: 70px 70px;
+        }
+        .ball {
+          animation: ballBounce 3.2s ease-in-out infinite;
+        }
+        .ball-slow {
+          animation: ballBounce 4.6s ease-in-out infinite reverse;
+        }
+        @keyframes ballBounce {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          25% { transform: translateY(-45px) rotate(120deg); }
+          50% { transform: translateY(0) rotate(240deg); }
+          75% { transform: translateY(-24px) rotate(360deg); }
+        }
+        .float-slow {
+          animation: floatSlow 5s ease-in-out infinite;
+        }
+        @keyframes floatSlow {
+          0%, 100% { transform: translateY(0) rotate(-8deg); }
+          50% { transform: translateY(-18px) rotate(8deg); }
+        }
+        .marquee-track {
+          animation: marqueeScroll 55s linear infinite;
+        }
+        .marquee-track:hover {
+          animation-play-state: paused;
+        }
+        @keyframes marqueeScroll {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        .pulse-ring {
+          animation: pulseRing 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulseRing {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.55); }
+          50% { box-shadow: 0 0 0 14px rgba(250, 204, 21, 0); }
+        }
+        .fade-up {
+          animation: fadeUp 0.7s ease both;
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      <header className='sticky top-0 z-50 border-b border-white/10 bg-emerald-950/90 backdrop-blur'>
+        <div className='mx-auto flex max-w-6xl items-center justify-between px-6 py-4'>
+          <a href='#' className='flex items-center gap-3'>
+            <FjuLogo className='h-11 w-11' />
+            <div>
+              <p className='text-base font-black uppercase tracking-wide text-white'>FJU</p>
+              <p className='text-[10px] font-bold uppercase tracking-[0.25em] text-yellow-300'>Nas comunidades</p>
+            </div>
+          </a>
+          <div className='flex items-center gap-2'>
+            <Link
+              to='/inscritos'
+              className='hidden rounded-full border border-white/25 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/10 sm:inline-flex'
             >
-              Fazer inscrição
+              📋 Inscritos
+            </Link>
+            <a
+              href='#inscricao'
+              className='inline-flex items-center gap-2 rounded-full bg-white px-5 py-2 text-sm font-black text-green-950 transition hover:bg-yellow-300'
+            >
+              ⚽ Inscrever
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <section className='relative overflow-hidden bg-gradient-to-br from-emerald-950 via-green-900 to-zinc-950 text-white'>
+        <div className='field-lines absolute inset-0 opacity-60' />
+        <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.3),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(250,204,21,0.18),transparent_30%)]' />
+        <div className='pointer-events-none absolute inset-0' aria-hidden='true'>
+          <div className='absolute right-[6%] top-[16%] hidden lg:block'>
+            <span className='ball block text-[110px] leading-none drop-shadow-2xl'>⚽</span>
+          </div>
+          <div className='absolute right-[16%] bottom-[10%] hidden md:block'>
+            <span className='float-slow block text-7xl leading-none drop-shadow-xl'>🏆</span>
+          </div>
+          <div className='absolute left-[4%] top-[52%] hidden lg:block'>
+            <span className='ball-slow block text-8xl leading-none drop-shadow-xl'>⚽</span>
+          </div>
+        </div>
+
+        <div className='relative mx-auto flex min-h-[640px] max-w-6xl flex-col items-center justify-center px-6 py-20 text-center'>
+          <FjuLogo className='h-24 w-24 sm:h-28 sm:w-28' />
+
+          <span className='mt-8 inline-flex items-center gap-2 rounded-full border border-yellow-300/30 bg-yellow-300/10 px-5 py-2 text-xs font-black uppercase tracking-[0.3em] text-yellow-200 backdrop-blur sm:text-sm'>
+            ⚽ Campeonato de futebol das comunidades
+          </span>
+
+          <h1 className='mt-6 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl'>
+            A bola rola <span className='text-yellow-300'>nas comunidades</span> e o seu time pode ser campeão
+          </h1>
+
+          <p className='mt-6 max-w-2xl text-base leading-8 text-emerald-50 sm:text-lg'>
+            O FJU nas Comunidades está organizando um campeonato para unir jogadores, famílias e moradores. Preencha a ficha, envie pelo WhatsApp e entre para a lista oficial.
+          </p>
+
+          <div className='mt-10 flex flex-col gap-4 sm:flex-row'>
+            <a
+              href='#inscricao'
+              className='pulse-ring inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-black text-green-950 shadow-2xl transition hover:scale-105 hover:bg-yellow-300'
+            >
+              ⚽ Inscrever meu time
             </a>
             <Link
-              to="/inscritos"
-              className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20"
+              to='/inscritos'
+              className='inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/25 bg-white/10 px-8 py-4 text-base font-bold text-white backdrop-blur transition hover:bg-white/20'
             >
-              Ver lista de inscritos
+              📋 Ver lista de inscritos
             </Link>
           </div>
-        </div>
-      </section>
 
-      <section id="ficha" className="mx-auto grid max-w-6xl gap-8 px-6 py-12 lg:grid-cols-[0.9fr_1.1fr]">
-        <aside className="rounded-3xl border border-border bg-card p-8 shadow-sm">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">
-            Ficha de inscrição
-          </p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight text-foreground">
-            Cadastre seu time
-          </h2>
-          <p className="mt-4 leading-7 text-muted-foreground">
-            Informe os dados do time, jogadores, idades e endereço. Ao finalizar, uma mensagem pronta será aberta no WhatsApp da administração.
-          </p>
-
-          <div className="mt-8 space-y-4 rounded-2xl bg-muted p-5">
-            <div>
-              <p className="text-sm font-semibold text-foreground">WhatsApp da organização</p>
-              <p className="mt-1 text-lg font-black text-emerald-700">(21) 98202-5641</p>
+          <div className='mt-12 grid w-full max-w-3xl grid-cols-3 gap-4 rounded-3xl border border-white/15 bg-white/5 p-6 backdrop-blur'>
+            <div className='text-center'>
+              <p className='text-2xl font-black text-yellow-300 sm:text-3xl'>100%</p>
+              <p className='mt-1 text-[11px] font-bold uppercase tracking-widest text-emerald-100 sm:text-xs'>Gratuito</p>
             </div>
-            <div>
-              <p className="text-sm font-semibold text-foreground">Link direto da lista</p>
-              <Link to="/inscritos" className="mt-1 inline-flex text-sm font-bold text-emerald-700 hover:underline">
-                Abrir inscritos sem senha
-              </Link>
+            <div className='text-center'>
+              <p className='text-2xl font-black text-yellow-300 sm:text-3xl'>⚽</p>
+              <p className='mt-1 text-[11px] font-bold uppercase tracking-widest text-emerald-100 sm:text-xs'>Feito para a comunidade</p>
             </div>
-            <div>
-              <p className="text-sm font-semibold text-foreground">Como funciona o armazenamento</p>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                As inscrições ficam salvas neste dispositivo. Para a organização acompanhar em qualquer lugar, a lista pode ser enviada pelo WhatsApp.
-              </p>
+            <div className='text-center'>
+              <p className='text-2xl font-black text-yellow-300 sm:text-3xl'>💬</p>
+              <p className='mt-1 text-[11px] font-bold uppercase tracking-widest text-emerald-100 sm:text-xs'>Confirmação no WhatsApp</p>
             </div>
           </div>
-        </aside>
-
-        <div className="rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-8">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid gap-5 sm:grid-cols-2">
-              <label className="space-y-2">
-                <span className="text-sm font-bold text-foreground">Nome do time</span>
-                <input
-                  value={teamName}
-                  onChange={(event) => setTeamName(event.target.value)}
-                  required
-                  placeholder="Ex: Comunidade FC"
-                  className="w-full rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15"
-                />
-              </label>
-
-              <label className="space-y-2">
-                <span className="text-sm font-bold text-foreground">Nome do responsável</span>
-                <input
-                  value={responsibleName}
-                  onChange={(event) => setResponsibleName(event.target.value)}
-                  required
-                  placeholder="Quem está fazendo a inscrição"
-                  className="w-full rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15"
-                />
-              </label>
-            </div>
-
-            <label className="space-y-2 block">
-              <span className="text-sm font-bold text-foreground">WhatsApp do responsável</span>
-              <input
-                value={responsibleWhatsapp}
-                onChange={(event) => {
-                  setResponsibleWhatsapp(formatPhoneNumber(event.target.value));
-                  if (phoneError) setPhoneError('');
-                }}
-                required
-                inputMode="tel"
-                autoComplete="tel"
-                maxLength={15}
-                placeholder="Ex: (21) 99999-9999"
-                aria-invalid={phoneError ? true : undefined}
-                className={`w-full rounded-2xl border bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:ring-4 ${
-                  phoneError
-                    ? 'border-destructive focus:border-destructive focus:ring-destructive/15'
-                    : 'border-input focus:border-emerald-600 focus:ring-emerald-600/15'
-                }`}
-              />
-              {phoneError ? (
-                <p className="text-sm font-semibold text-destructive">{phoneError}</p>
-              ) : (
-                <p className="text-xs text-muted-foreground">
-                  O WhatsApp será usado pela organização e para enviar a confirmação da inscrição.
-                </p>
-              )}
-            </label>
-
-            <label className="space-y-2 block">
-              <span className="text-sm font-bold text-foreground">Nomes dos jogadores</span>
-              <textarea
-                value={players}
-                onChange={(event) => setPlayers(event.target.value)}
-                required
-                rows={6}
-                placeholder="Digite um jogador por linha"
-                className="w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15"
-              />
-              <p className="text-xs font-medium text-muted-foreground">
-                {playerCount > 0
-                  ? `${playerCount} jogador${playerCount === 1 ? '' : 'es'} listado${playerCount === 1 ? '' : 's'}`
-                  : 'Ainda não há jogadores listados'}
-              </p>
-            </label>
-
-            <label className="space-y-2 block">
-              <span className="text-sm font-bold text-foreground">Idade dos jogadores</span>
-              <textarea
-                value={ages}
-                onChange={(event) => setAges(event.target.value)}
-                required
-                rows={4}
-                placeholder="Ex: João - 17 anos, Pedro - 18 anos..."
-                className="w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15"
-              />
-            </label>
-
-            <label className="space-y-2 block">
-              <span className="text-sm font-bold text-foreground">Endereço / comunidade</span>
-              <textarea
-                value={address}
-                onChange={(event) => setAddress(event.target.value)}
-                required
-                rows={3}
-                placeholder="Informe rua, número, bairro ou comunidade"
-                className="w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15"
-              />
-            </label>
-
-            <button
-              type="submit"
-              className="w-full rounded-2xl bg-emerald-700 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-700/20 transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-600/20"
-            >
-              Enviar inscrição pelo WhatsApp
-            </button>
-          </form>
-
-          {lastRegistration ? (
-            <div className="mt-6 rounded-3xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-950">
-              <h3 className="text-lg font-black">Inscrição registrada com sucesso!</h3>
-              <p className="mt-2 text-sm leading-6">
-                O cadastro do time {lastRegistration.teamName} foi salvo neste dispositivo. Se a janela do WhatsApp não abriu, use os botões abaixo.
-              </p>
-              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href={adminWhatsappUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-full bg-emerald-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-800"
-                >
-                  Reenviar para o administrador
-                </a>
-                {confirmationWhatsappUrl ? (
-                  <a
-                    href={confirmationWhatsappUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-100"
-                  >
-                    Enviar confirmação ao time
-                  </a>
-                ) : null}
-              </div>
-            </div>
-          ) : null}
         </div>
       </section>
+
+      <section className='relative overflow-hidden border-y border-border bg-card py-4'>
+        <p className='mb-4 text-center text-xs font-black uppercase tracking-[0.35em] text-emerald-700'>
+          Nossas comunidades em campo
+        </p>
+        <div className='relative overflow-hidden'>
+          <div className='marquee-track flex w-max gap-4'>
+            {MARQUEE_IMAGES.map((src, index) => (
+              <img
+                key={index}
+                src={src}
+                alt='FJU nas comunidades'
+                loading='lazy'
+                className='h-40 w-60 shrink-0 rounded-2xl object-cover shadow-md'
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className='mx-auto max-w-6xl px-6 py-20'>
+        <div className='text-center'>
+          <span className='text-sm font-black uppercase tracking-[0.3em] text-emerald-600'>Como participar</span>
+          <h2 className='mt-4 text-3xl font-black tracking-tight text-foreground sm:text-4xl'>Do cadastro ao campo em três passos</h2>
+          <p className='mx-auto mt-4 max-w-2xl leading-7 text-muted-foreground'>
+            Sem burocracia: preencha a ficha, envie e aguarde a confirmação da organização.
+          </p>
+        </div>
+
+        <div className='mt-12 grid gap-6 md:grid-cols-3'>
+          <div className='fade-up rounded-3xl border border-border bg-card p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-lg'>
+            <div className='flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-700 text-2xl shadow-lg shadow-emerald-700/25'>📝</div>
+            <h3 className='mt-6 text-xl font-black text-foreground'>1. Preencha a ficha</h3>
+            <p className='mt-3 leading-7 text-muted-foreground'>Nome do time, lista de jogadores, idades e o endereço da comunidade.</p>
+          </div>
+          <div className='fade-up rounded-3xl border border-border bg-card p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-lg' style={{ animationDelay: '0.15s' }}>
+            <div className='flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-700 text-2xl shadow-lg shadow-emerald-700/25'>💬</div>
+            <h3 className='mt-6 text-xl font-black text-foreground'>2. Envio automático</h3>
+            <p className='mt-3 leading-7 text-muted-foreground'>A ficha gera uma mensagem pronta que abre no WhatsApp da organização.</p>
+          </div>
+          <div className='fade-up rounded-3xl border border-border bg-card p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-lg' style={{ animationDelay: '0.3s' }}>
+            <div className='flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-700 text-2xl shadow-lg shadow-emerald-700/25'>🏆</div>
+            <h3 className='mt-6 text-xl font-black text-foreground'>3. Vai ter bola rolando</h3>
+            <p className='mt-3 leading-7 text-muted-foreground'>Depois da confirmação, é só preparar as chuteiras e vestir a camisa da comunidade.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className='bg-gradient-to-b from-emerald-950 via-green-900 to-zinc-950 py-20 text-white'>
+        <div className='mx-auto max-w-6xl px-6'>
+          <div className='text-center'>
+            <span className='text-sm font-black uppercase tracking-[0.3em] text-yellow-300'>FJU nas comunidades</span>
+            <h2 className='mt-4 text-3xl font-black tracking-tight sm:text-4xl'>A união faz o time</h2>
+            <p className='mx-auto mt-4 max-w-2xl leading-7 text-emerald-50'>
+              Momentos e encontros que mostram o quanto a comunidade é forte quando entra em campo junta.
+            </p>
+          </div>
+
+          <div className='mt-12 grid grid-cols-2 gap-4 md:grid-cols-4'>
+            {COMMUNITY_IMAGES.slice(0, 8).map((src, index) => (
+              <img
+                key={index}
+                src={src}
+                alt={`FJU nas comunidades ${index + 1}`}
+                loading='lazy'
+                className={`h-40 w-full rounded-2xl object-cover shadow-lg transition duration-300 hover:scale-[1.03] sm:h-48 ${index % 2 === 0 ? 'md:mt-6' : ''}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id='inscricao' className='mx-auto max-w-6xl px-6 py-20'>
+        <div className='grid gap-10 lg:grid-cols-[0.85fr_1.15fr]'>
+          <aside className='relative overflow-hidden rounded-3xl border border-border bg-card p-8 shadow-sm'>
+            <div className='pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-emerald-600/10' />
+            <div className='pointer-events-none absolute -bottom-14 -left-14 h-44 w-44 rounded-full bg-yellow-400/10' />
+
+            <span className='relative text-sm font-black uppercase tracking-[0.3em] text-emerald-600'>Inscrição oficial</span>
+            <h2 className='relative mt-4 text-3xl font-black tracking-tight text-foreground'>Cadastre seu time agora</h2>
+            <p className='relative mt-4 leading-7 text-muted-foreground'>
+              É grátis e leva menos de dois minutos. Ao enviar, a organização recebe tudo pelo WhatsApp e o time já entra na lista oficial.
+            </p>
+
+            <div className='relative mt-8 space-y-4'>
+              <div className='flex items-start gap-4 rounded-2xl bg-muted p-4'>
+                <span className='text-2xl'>📞</span>
+                <div>
+                  <p className='text-sm font-black text-foreground'>WhatsApp da organização</p>
+                  <p className='mt-1 text-lg font-black text-emerald-700'>(21) 98202-5641</p>
+                </div>
+              </div>
+              <div className='flex items-start gap-4 rounded-2xl bg-muted p-4'>
+                <span className='text-2xl'>📋</span>
+                <div>
+                  <p className='text-sm font-black text-foreground'>Lista de inscritos</p>
+                  <Link to='/inscritos' className='mt-1 inline-flex text-sm font-bold text-emerald-700 hover:underline'>
+                    Ver quem já está inscrito
+                  </Link>
+                </div>
+              </div>
+              <div className='flex items-start gap-4 rounded-2xl bg-muted p-4'>
+                <span className='text-2xl'>🗺️</span>
+                <div>
+                  <p className='text-sm font-black text-foreground'>Sua comunidade conta</p>
+                  <p className='mt-1 text-sm leading-6 text-muted-foreground'>Reúna os craques da região e mostre a força do futebol de comunidade.</p>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <div className='rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-8'>
+            <form onSubmit={handleSubmit} className='space-y-5'>
+              <div className='grid gap-5 sm:grid-cols-2'>
+                <label className='block space-y-2'>
+                  <span className='flex items-center gap-2 text-sm font-bold text-foreground'>
+                    <span className='text-lg'>👕</span> Nome do time
+                  </span>
+                  <input
+                    value={teamName}
+                    onChange={(event) => setTeamName(event.target.value)}
+                    required
+                    placeholder='Ex: Comunidade FC'
+                    className={inputClassName}
+                  />
+                </label>
+
+                <label className='block space-y-2'>
+                  <span className='flex items-center gap-2 text-sm font-bold text-foreground'>
+                    <span className='text-lg'>🙋</span> Nome do responsável
+                  </span>
+                  <input
+                    value={responsibleName}
+                    onChange={(event) => setResponsibleName(event.target.value)}
+                    required
+                    placeholder='Quem está fazendo a inscrição'
+                    className={inputClassName}
+                  />
+                </label>
+              </div>
+
+              <label className='block space-y-2'>
+                <span className='flex items-center gap-2 text-sm font-bold text-foreground'>
+                  <span className='text-lg'>📱</span> WhatsApp do responsável
+                </span>
+                <input
+                  value={responsibleWhatsapp}
+                  onChange={(event) => {
+                    setResponsibleWhatsapp(formatPhoneNumber(event.target.value));
+                    if (phoneError) setPhoneError('');
+                  }}
+                  required
+                  inputMode='tel'
+                  autoComplete='tel'
+                  maxLength={15}
+                  placeholder='Ex: (21) 99999-9999'
+                  aria-invalid={phoneError ? true : undefined}
+                  className={`w-full rounded-2xl border bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:ring-4 ${
+                    phoneError
+                      ? 'border-destructive focus:border-destructive focus:ring-destructive/15'
+                      : 'border-input focus:border-emerald-600 focus:ring-emerald-600/15'
+                  }`}
+                />
+                {phoneError ? (
+                  <p className='text-sm font-semibold text-destructive'>{phoneError}</p>
+                ) : (
+                  <p className='text-xs text-muted-foreground'>
+                    O WhatsApp será usado pela organização e para enviar a confirmação da inscrição.
+                  </p>
+                )}
+              </label>
+
+              <label className='block space-y-2'>
+                <span className='flex items-center gap-2 text-sm font-bold text-foreground'>
+                  <span className='text-lg'>⚽</span> Nomes dos jogadores
+                </span>
+                <textarea
+                  value={players}
+                  onChange={(event) => setPlayers(event.target.value)}
+                  required
+                  rows={6}
+                  placeholder='Digite um jogador por linha'
+                  className='w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15'
+                />
+                <p className='text-xs font-medium text-muted-foreground'>
+                  {playerCount > 0
+                    ? `${playerCount} jogador${playerCount === 1 ? '' : 'es'} listado${playerCount === 1 ? '' : 's'}`
+                    : 'Ainda não há jogadores listados'}
+                </p>
+              </label>
+
+              <label className='block space-y-2'>
+                <span className='flex items-center gap-2 text-sm font-bold text-foreground'>
+                  <span className='text-lg'>🎂</span> Idade dos jogadores
+                </span>
+                <textarea
+                  value={ages}
+                  onChange={(event) => setAges(event.target.value)}
+                  required
+                  rows={4}
+                  placeholder='Ex: João - 17 anos, Pedro - 18 anos...'
+                  className='w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15'
+                />
+              </label>
+
+              <label className='block space-y-2'>
+                <span className='flex items-center gap-2 text-sm font-bold text-foreground'>
+                  <span className='text-lg'>📍</span> Endereço / comunidade
+                </span>
+                <textarea
+                  value={address}
+                  onChange={(event) => setAddress(event.target.value)}
+                  required
+                  rows={3}
+                  placeholder='Informe rua, número, bairro ou comunidade'
+                  className='w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/15'
+                />
+              </label>
+
+              <button
+                type='submit'
+                className='group flex w-full items-center justify-center gap-3 rounded-2xl bg-emerald-700 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-700/25 transition hover:scale-[1.01] hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-600/20 active:scale-[0.99]'
+              >
+                <span className='text-xl transition group-hover:rotate-12'>⚽</span>
+                Enviar inscrição pelo WhatsApp
+              </button>
+
+              <p className='text-center text-xs leading-5 text-muted-foreground'>
+                Ao enviar, o WhatsApp abre com a mensagem pronta para a organização. Revise os dados antes de tocar em enviar.
+              </p>
+            </form>
+
+            {lastRegistration ? (
+              <div className='fade-up mt-6 rounded-3xl border-2 border-emerald-300 bg-emerald-50 p-5 text-emerald-950'>
+                <div className='flex items-center gap-3'>
+                  <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-lg font-black text-white shadow-lg'>✓</span>
+                  <h3 className='text-lg font-black'>Inscrição registrada com sucesso!</h3>
+                </div>
+                <p className='mt-3 text-sm leading-6'>
+                  O cadastro do time {lastRegistration.teamName} foi salvo neste dispositivo. Se a janela do WhatsApp não abriu, use os botões abaixo.
+                </p>
+                <div className='mt-4 flex flex-col gap-3 sm:flex-row'>
+                  <a
+                    href={adminWhatsappUrl}
+                    target='_blank'
+                    rel='noreferrer'
+                    className='inline-flex items-center justify-center rounded-full bg-emerald-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-800'
+                  >
+                    Reenviar para o administrador
+                  </a>
+                  {confirmationWhatsappUrl ? (
+                    <a
+                      href={confirmationWhatsappUrl}
+                      target='_blank'
+                      rel='noreferrer'
+                      className='inline-flex items-center justify-center rounded-full border border-emerald-700 px-5 py-3 text-sm font-bold text-emerald-800 transition hover:bg-emerald-100'
+                    >
+                      Enviar confirmação ao time
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </section>
+
+      <footer className='border-t border-border bg-emerald-950 py-12 text-center text-white'>
+        <FjuLogo className='mx-auto h-14 w-14' />
+        <p className='mt-4 text-sm font-black uppercase tracking-[0.25em] text-yellow-300'>FJU nas Comunidades</p>
+        <p className='mx-auto mt-3 max-w-md px-6 text-sm leading-6 text-emerald-100/70'>
+          Organizado com carinho para unir as comunidades pelo esporte. Toda a honra e glória a Deus.
+        </p>
+        <div className='mx-auto mt-6 flex max-w-md flex-col items-center justify-center gap-2 sm:flex-row'>
+          <a href='#inscricao' className='rounded-full bg-white px-6 py-2 text-sm font-black text-green-950 transition hover:bg-yellow-300'>
+            Quero inscrever meu time
+          </a>
+          <Link to='/inscritos' className='rounded-full border border-white/20 px-6 py-2 text-sm font-bold text-white transition hover:bg-white/10'>
+            Ver inscritos
+          </Link>
+        </div>
+      </footer>
     </main>
   );
 }
