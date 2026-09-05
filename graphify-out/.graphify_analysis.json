@@ -1,97 +1,49 @@
 {
   "communities": {
     "0": [
-      "src_routes_index",
-      "src_routes_index_community_images",
-      "src_routes_index_getstoredregistrations",
-      "src_routes_index_marquee_images",
-      "src_routes_index_registration",
-      "src_routes_index_route",
-      "src_routes_index_saveregistration"
-    ],
-    "1": [
-      "src_routes_index_buildconfirmationmessage",
-      "src_routes_index_championshipregistrationpage",
-      "src_routes_index_championshipregistrationpage_handlesubmit",
-      "src_routes_index_formatphonenumber",
-      "src_routes_index_isvalidphonenumber",
-      "src_routes_index_onlynumbers"
-    ],
-    "2": [
+      "src_components_fjulogo",
+      "src_components_fjulogo_fjulogo",
       "src_routes_inscritos",
-      "src_routes_inscritos_countplayers",
       "src_routes_inscritos_registration",
       "src_routes_inscritos_route"
     ],
-    "3": [
+    "1": [
+      "src_routes_inscritos_countplayers",
       "src_routes_inscritos_getstoredregistrations",
       "src_routes_inscritos_registrationslistpage",
       "src_routes_inscritos_registrationslistpage_handleclearlist",
       "src_routes_inscritos_registrationslistpage_handlerefresh"
     ],
-    "4": [
+    "2": [
       "src_routes_inscritos_buildcsv",
       "src_routes_inscritos_formatdate",
       "src_routes_inscritos_registrationslistpage_handleexportcsv"
     ],
-    "5": [
-      "src_components_fjulogo",
-      "src_components_fjulogo_fjulogo"
-    ],
-    "6": [
+    "3": [
       "src_integrations_supabase_client",
       "src_integrations_supabase_client_supabase"
     ],
-    "7": [
-      "src_routes_index_buildadminmessage",
-      "src_routes_index_formatdate"
-    ],
-    "8": [
+    "4": [
       "src_routes_inscritos_buildlistmessage",
       "src_routes_inscritos_registrationslistpage_handlecopylist"
+    ],
+    "5": [
+      "src_routes_index"
     ]
   },
   "cohesion": {
-    "0": 0.3333333333333333,
-    "1": 0.5333333333333333,
-    "2": 0.5,
-    "3": 0.6666666666666666,
-    "4": 0.6666666666666666,
-    "5": 1.0,
-    "6": 1.0,
-    "7": 1.0,
-    "8": 1.0
+    "0": 0.5,
+    "1": 0.5,
+    "2": 0.6666666666666666,
+    "3": 1.0,
+    "4": 1.0,
+    "5": 1.0
   },
   "gods": [
     {
       "id": "src_routes_inscritos_registrationslistpage",
       "label": "RegistrationsListPage()",
       "degree": 9
-    },
-    {
-      "id": "src_routes_index_championshipregistrationpage",
-      "label": "ChampionshipRegistrationPage()",
-      "degree": 6
-    },
-    {
-      "id": "src_routes_index_championshipregistrationpage_handlesubmit",
-      "label": "handleSubmit()",
-      "degree": 5
-    },
-    {
-      "id": "src_routes_index_onlynumbers",
-      "label": "onlyNumbers()",
-      "degree": 4
-    },
-    {
-      "id": "src_routes_index_formatphonenumber",
-      "label": "formatPhoneNumber()",
-      "degree": 4
-    },
-    {
-      "id": "src_routes_index_buildadminmessage",
-      "label": "buildAdminMessage()",
-      "degree": 4
     },
     {
       "id": "src_routes_inscritos_formatdate",
@@ -104,39 +56,42 @@
       "degree": 4
     },
     {
-      "id": "src_components_fjulogo_fjulogo",
-      "label": "FjuLogo()",
+      "id": "src_routes_inscritos_getstoredregistrations",
+      "label": "getStoredRegistrations()",
       "degree": 3
     },
     {
-      "id": "src_routes_index_isvalidphonenumber",
-      "label": "isValidPhoneNumber()",
+      "id": "src_routes_inscritos_buildcsv",
+      "label": "buildCsv()",
       "degree": 3
+    },
+    {
+      "id": "src_components_fjulogo_fjulogo",
+      "label": "FjuLogo()",
+      "degree": 2
+    },
+    {
+      "id": "src_routes_inscritos_countplayers",
+      "label": "countPlayers()",
+      "degree": 2
+    },
+    {
+      "id": "src_routes_inscritos_registrationslistpage_handlerefresh",
+      "label": "handleRefresh()",
+      "degree": 2
+    },
+    {
+      "id": "src_routes_inscritos_registrationslistpage_handleexportcsv",
+      "label": "handleExportCsv()",
+      "degree": 2
+    },
+    {
+      "id": "src_routes_inscritos_registrationslistpage_handlecopylist",
+      "label": "handleCopyList()",
+      "degree": 2
     }
   ],
   "surprises": [
-    {
-      "source": "ChampionshipRegistrationPage()",
-      "target": "buildAdminMessage()",
-      "source_files": [
-        "src/routes/index.tsx",
-        "src/routes/index.tsx"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "note": "Bridges community 7 \u2192 community 1"
-    },
-    {
-      "source": "handleSubmit()",
-      "target": "saveRegistration()",
-      "source_files": [
-        "src/routes/index.tsx",
-        "src/routes/index.tsx"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "note": "Bridges community 0 \u2192 community 1"
-    },
     {
       "source": "buildListMessage()",
       "target": "formatDate()",
@@ -146,7 +101,7 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "note": "Bridges community 4 \u2192 community 8"
+      "note": "Bridges community 2 \u2192 community 4"
     },
     {
       "source": "RegistrationsListPage()",
@@ -157,7 +112,7 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "note": "Bridges community 4 \u2192 community 3"
+      "note": "Bridges community 2 \u2192 community 1"
     },
     {
       "source": "RegistrationsListPage()",
@@ -168,7 +123,7 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "note": "Bridges community 8 \u2192 community 3"
+      "note": "Bridges community 4 \u2192 community 1"
     }
   ],
   "tokens": {

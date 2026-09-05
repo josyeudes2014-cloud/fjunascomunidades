@@ -1,25 +1,25 @@
 {
   "src/components/FjuLogo.tsx": {
-    "mtime": 1788632061.3647513,
-    "seen": 1788632064.5083427,
+    "mtime": 1788632963.7173295,
+    "seen": 1788632966.948323,
     "ast_hash": "f5c00d03233ba68075daac022c1f1702",
     "semantic_hash": "f5c00d03233ba68075daac022c1f1702"
   },
   "src/routes/index.tsx": {
-    "mtime": 1788632061.3648722,
-    "seen": 1788632064.5083487,
-    "ast_hash": "49e5e0f399f8261427d09925922af2ff",
-    "semantic_hash": "49e5e0f399f8261427d09925922af2ff"
+    "mtime": 1788632963.7174442,
+    "seen": 1788632966.9483294,
+    "ast_hash": "2f43b42fd833d1e77420a8dae7419000",
+    "semantic_hash": "2f43b42fd833d1e77420a8dae7419000"
   },
   "src/routes/inscritos.tsx": {
-    "mtime": 1788632061.3651323,
-    "seen": 1788632064.5083501,
+    "mtime": 1788632963.7175944,
+    "seen": 1788632966.9483314,
     "ast_hash": "ba4bc0cd423f59ce20cea4846e1cd73d",
     "semantic_hash": "ba4bc0cd423f59ce20cea4846e1cd73d"
   },
   "src/integrations/supabase/client.ts": {
-    "mtime": 1788632061.3648722,
-    "seen": 1788632064.5083466,
+    "mtime": 1788632963.7174442,
+    "seen": 1788632966.9483275,
     "ast_hash": "b7a29a5823f99b9a1b01b93cc3017b8c",
     "semantic_hash": "b7a29a5823f99b9a1b01b93cc3017b8c"
   }
