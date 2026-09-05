@@ -1,0 +1,20 @@
+{
+  "src/components/FjuLogo.tsx": {
+    "mtime": 1788631828.5295846,
+    "seen": 1788631832.0401342,
+    "ast_hash": "f5c00d03233ba68075daac022c1f1702",
+    "semantic_hash": "f5c00d03233ba68075daac022c1f1702"
+  },
+  "src/routes/index.tsx": {
+    "mtime": 1788631828.5295846,
+    "seen": 1788631832.0401382,
+    "ast_hash": "49e5e0f399f8261427d09925922af2ff",
+    "semantic_hash": "49e5e0f399f8261427d09925922af2ff"
+  },
+  "src/routes/inscritos.tsx": {
+    "mtime": 1788631828.529763,
+    "seen": 1788631832.0401404,
+    "ast_hash": "ba4bc0cd423f59ce20cea4846e1cd73d",
+    "semantic_hash": "ba4bc0cd423f59ce20cea4846e1cd73d"
+  }
+}
