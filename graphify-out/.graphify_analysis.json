@@ -10,14 +10,6 @@
       "src_routes_index_saveregistration"
     ],
     "1": [
-      "src_components_fjulogo",
-      "src_components_fjulogo_fjulogo",
-      "src_routes_inscritos",
-      "src_routes_inscritos_countplayers",
-      "src_routes_inscritos_registration",
-      "src_routes_inscritos_route"
-    ],
-    "2": [
       "src_routes_index_buildconfirmationmessage",
       "src_routes_index_championshipregistrationpage",
       "src_routes_index_championshipregistrationpage_handlesubmit",
@@ -25,12 +17,16 @@
       "src_routes_index_isvalidphonenumber",
       "src_routes_index_onlynumbers"
     ],
+    "2": [
+      "src_routes_inscritos",
+      "src_routes_inscritos_countplayers",
+      "src_routes_inscritos_registration",
+      "src_routes_inscritos_route"
+    ],
     "3": [
-      "src_routes_inscritos_buildlistmessage",
       "src_routes_inscritos_getstoredregistrations",
       "src_routes_inscritos_registrationslistpage",
       "src_routes_inscritos_registrationslistpage_handleclearlist",
-      "src_routes_inscritos_registrationslistpage_handlecopylist",
       "src_routes_inscritos_registrationslistpage_handlerefresh"
     ],
     "4": [
@@ -39,17 +35,32 @@
       "src_routes_inscritos_registrationslistpage_handleexportcsv"
     ],
     "5": [
+      "src_components_fjulogo",
+      "src_components_fjulogo_fjulogo"
+    ],
+    "6": [
+      "src_integrations_supabase_client",
+      "src_integrations_supabase_client_supabase"
+    ],
+    "7": [
       "src_routes_index_buildadminmessage",
       "src_routes_index_formatdate"
+    ],
+    "8": [
+      "src_routes_inscritos_buildlistmessage",
+      "src_routes_inscritos_registrationslistpage_handlecopylist"
     ]
   },
   "cohesion": {
     "0": 0.3333333333333333,
-    "1": 0.4,
-    "2": 0.5333333333333333,
-    "3": 0.4666666666666667,
+    "1": 0.5333333333333333,
+    "2": 0.5,
+    "3": 0.6666666666666666,
     "4": 0.6666666666666666,
-    "5": 1.0
+    "5": 1.0,
+    "6": 1.0,
+    "7": 1.0,
+    "8": 1.0
   },
   "gods": [
     {
@@ -113,7 +124,7 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "note": "Bridges community 5 \u2192 community 2"
+      "note": "Bridges community 7 \u2192 community 1"
     },
     {
       "source": "handleSubmit()",
@@ -124,10 +135,21 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "note": "Bridges community 0 \u2192 community 2"
+      "note": "Bridges community 0 \u2192 community 1"
     },
     {
       "source": "buildListMessage()",
+      "target": "formatDate()",
+      "source_files": [
+        "src/routes/inscritos.tsx",
+        "src/routes/inscritos.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "note": "Bridges community 4 \u2192 community 8"
+    },
+    {
+      "source": "RegistrationsListPage()",
       "target": "formatDate()",
       "source_files": [
         "src/routes/inscritos.tsx",
@@ -139,14 +161,14 @@
     },
     {
       "source": "RegistrationsListPage()",
-      "target": "countPlayers()",
+      "target": "buildListMessage()",
       "source_files": [
         "src/routes/inscritos.tsx",
         "src/routes/inscritos.tsx"
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "note": "Bridges community 1 \u2192 community 3"
+      "note": "Bridges community 8 \u2192 community 3"
     }
   ],
   "tokens": {

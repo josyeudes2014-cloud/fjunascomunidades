@@ -21,7 +21,7 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 1,
+      "community": 2,
       "file_type": "code",
       "norm_label": "registration",
       "source_file": "src/routes/inscritos.tsx",
@@ -50,33 +50,11 @@
       "source_location": "L115"
     },
     {
-      "id": "src_components_fjulogo_fjulogo",
-      "label": "FjuLogo()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "file_type": "code",
-      "norm_label": "fjulogo()",
-      "source_file": "src/components/FjuLogo.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_routes_inscritos_countplayers",
-      "label": "countPlayers()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "file_type": "code",
-      "norm_label": "countplayers()",
-      "source_file": "src/routes/inscritos.tsx",
-      "source_location": "L89"
-    },
-    {
       "id": "src_routes_index_buildconfirmationmessage",
       "label": "buildConfirmationMessage()",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "file_type": "code",
       "norm_label": "buildconfirmationmessage()",
       "source_file": "src/routes/index.tsx",
@@ -87,7 +65,7 @@
       "label": "ChampionshipRegistrationPage()",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "file_type": "code",
       "norm_label": "championshipregistrationpage()",
       "source_file": "src/routes/index.tsx",
@@ -98,7 +76,7 @@
       "label": "handleSubmit()",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "file_type": "code",
       "norm_label": "handlesubmit()",
       "source_file": "src/routes/index.tsx",
@@ -109,7 +87,7 @@
       "label": "formatPhoneNumber()",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "file_type": "code",
       "norm_label": "formatphonenumber()",
       "source_file": "src/routes/index.tsx",
@@ -120,7 +98,7 @@
       "label": "isValidPhoneNumber()",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "file_type": "code",
       "norm_label": "isvalidphonenumber()",
       "source_file": "src/routes/index.tsx",
@@ -131,22 +109,22 @@
       "label": "onlyNumbers()",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "file_type": "code",
       "norm_label": "onlynumbers()",
       "source_file": "src/routes/index.tsx",
       "source_location": "L46"
     },
     {
-      "id": "src_routes_inscritos_buildlistmessage",
-      "label": "buildListMessage()",
+      "id": "src_routes_inscritos_countplayers",
+      "label": "countPlayers()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
+      "community": 2,
       "file_type": "code",
-      "norm_label": "buildlistmessage()",
+      "norm_label": "countplayers()",
       "source_file": "src/routes/inscritos.tsx",
-      "source_location": "L41"
+      "source_location": "L89"
     },
     {
       "id": "src_routes_inscritos_getstoredregistrations",
@@ -180,17 +158,6 @@
       "norm_label": "handleclearlist()",
       "source_file": "src/routes/inscritos.tsx",
       "source_location": "L133"
-    },
-    {
-      "id": "src_routes_inscritos_registrationslistpage_handlecopylist",
-      "label": "handleCopyList()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "file_type": "code",
-      "norm_label": "handlecopylist()",
-      "source_file": "src/routes/inscritos.tsx",
-      "source_location": "L155"
     },
     {
       "id": "src_routes_inscritos_registrationslistpage_handlerefresh",
@@ -237,11 +204,22 @@
       "source_location": "L142"
     },
     {
+      "id": "src_components_fjulogo_fjulogo",
+      "label": "FjuLogo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": "fjulogo()",
+      "source_file": "src/components/FjuLogo.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_routes_index_buildadminmessage",
       "label": "buildAdminMessage()",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 7,
       "file_type": "code",
       "norm_label": "buildadminmessage()",
       "source_file": "src/routes/index.tsx",
@@ -252,11 +230,33 @@
       "label": "formatDate()",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
+      "community": 7,
       "file_type": "code",
       "norm_label": "formatdate()",
       "source_file": "src/routes/index.tsx",
       "source_location": "L50"
+    },
+    {
+      "id": "src_routes_inscritos_buildlistmessage",
+      "label": "buildListMessage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "file_type": "code",
+      "norm_label": "buildlistmessage()",
+      "source_file": "src/routes/inscritos.tsx",
+      "source_location": "L41"
+    },
+    {
+      "id": "src_routes_inscritos_registrationslistpage_handlecopylist",
+      "label": "handleCopyList()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "file_type": "code",
+      "norm_label": "handlecopylist()",
+      "source_file": "src/routes/inscritos.tsx",
+      "source_location": "L155"
     },
     {
       "id": "src_routes_index",
@@ -299,20 +299,10 @@
       "source_location": "L5"
     },
     {
-      "id": "src_components_fjulogo",
-      "label": "FjuLogo.tsx",
-      "_origin": "ast",
-      "community": 1,
-      "file_type": "code",
-      "norm_label": "fjulogo.tsx",
-      "source_file": "src/components/FjuLogo.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_routes_inscritos",
       "label": "inscritos.tsx",
       "_origin": "ast",
-      "community": 1,
+      "community": 2,
       "file_type": "code",
       "norm_label": "inscritos.tsx",
       "source_file": "src/routes/inscritos.tsx",
@@ -322,11 +312,41 @@
       "id": "src_routes_inscritos_route",
       "label": "Route",
       "_origin": "ast",
-      "community": 1,
+      "community": 2,
       "file_type": "code",
       "norm_label": "route",
       "source_file": "src/routes/inscritos.tsx",
       "source_location": "L5"
+    },
+    {
+      "id": "src_components_fjulogo",
+      "label": "FjuLogo.tsx",
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "norm_label": "fjulogo.tsx",
+      "source_file": "src/components/FjuLogo.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_integrations_supabase_client",
+      "label": "client.ts",
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "norm_label": "client.ts",
+      "source_file": "src/integrations/supabase/client.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_integrations_supabase_client_supabase",
+      "label": "supabase",
+      "_origin": "ast",
+      "community": 6,
+      "file_type": "code",
+      "norm_label": "supabase",
+      "source_file": "src/integrations/supabase/client.ts",
+      "source_location": "L10"
     }
   ],
   "links": [
@@ -642,6 +662,17 @@
       "weight": 1.0
     },
     {
+      "source": "src_integrations_supabase_client",
+      "target": "src_integrations_supabase_client_supabase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/integrations/supabase/client.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
       "source": "src_routes_index",
       "target": "src_routes_index_getstoredregistrations",
       "relation": "contains",
@@ -931,5 +962,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b96554206b7b89f039589fcf388c26a21626de4d"
+  "built_at_commit": "6042b9ff18d64c069ff8e50792fc2e55f204cc78"
 }
